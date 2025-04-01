@@ -10,3 +10,10 @@ yarn-error.log*
 
 .vscode/*
 .idea
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
