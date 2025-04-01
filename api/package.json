@@ -19,6 +19,7 @@
     "migrate:test": "dotenv -e .testing.env -- npx prisma migrate deploy",
     "test:unit": "jest -c jest.unit.config.json",
     "test:integration": "dotenv -e .testing.env jest -c jest.integration.config.json",
+    "test:integration:full": "docker compose up -d && yarn migrate:test && yarn test:integration && docker compose down",
     "test:cov": "jest --coverage"
   },
   "dependencies": {
