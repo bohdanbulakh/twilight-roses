@@ -1,0 +1,9 @@
+{
+  "name": "twilight-roses",
+  "version": "1.0.0",
+  "description": "",
+  "packageManager": "yarn@4.8.1",
+  "author": "",
+  "license": "ISC",
+  "private": true
+}
