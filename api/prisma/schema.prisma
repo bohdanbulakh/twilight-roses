@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,95 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  INDIVIDUAL
+  COMMERCIAL
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String
+  username  String?
+  firstName String   @map("first_name")
+  lastName  String?  @map("last_name")
+  type      UserType
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  orders    Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id            String         @id @default(uuid())
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId        String?        @map("user_id")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  productOrders ProductOrder[]
+
+  @@map("orders")
+}
+
+model Category {
+  id                String            @id @default(uuid())
+  name              String
+  description       String?
+  parent            Category?         @relation("Inheritance", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId          String?           @map("parent_id")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+  children          Category[]        @relation("Inheritance")
+  productCategories ProductCategory[]
+
+  @@map("categories")
+}
+
+model Product {
+  id                String            @id @default(uuid())
+  name              String
+  description       String?
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+  productOrders     ProductOrder[]
+  productCategories ProductCategory[]
+
+  @@map("products")
+}
+
+model ProductCategory {
+  id         String   @id @default(uuid())
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String   @map("product_id")
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String   @map("category_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([productId, categoryId])
+  @@map("product_categories")
+}
+
+model ProductOrder {
+  id        String   @id @default(uuid())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   @map("product_id")
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String   @map("order_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([productId, orderId])
+  @@map("product_orders")
+}
+
+model EmailToken {
+  token     String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("email_tokens")
 }
