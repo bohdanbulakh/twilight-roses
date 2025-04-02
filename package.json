@@ -9,5 +9,8 @@
   "workspaces": [
     "api",
     "utils"
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^2.4.4"
+  }
 }
