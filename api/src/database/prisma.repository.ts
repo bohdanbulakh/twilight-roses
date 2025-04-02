@@ -1,16 +1,15 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { RepositoryInterface } from './interfaces/repository.interface';
-
-export type Models = Prisma.TypeMap['meta']['modelProps'];
+import { TModels, TCreate, TSort, TUpdate, TWhere, TWhereUnique } from './types/repository.types';
 
 export abstract class PrismaRepository<
-  Model extends Models,
+  Model extends TModels,
   Dto,
-  Where = Prisma.TypeMap['model'][Capitalize<Model>]['operations']['findFirst']['args']['where'],
-  Sort = Prisma.TypeMap['model'][Capitalize<Model>]['operations']['findFirst']['args']['orderBy'],
-  Create = Prisma.TypeMap['model'][Capitalize<Model>]['operations']['create']['args']['data'],
-  Update = Prisma.TypeMap['model'][Capitalize<Model>]['operations']['update']['args']['data'],
-  WhereUnique = Prisma.TypeMap['model'][Capitalize<Model>]['operations']['findUnique']['args']['where'],
+  Where = TWhere<Model>,
+  Sort = TSort<Model>,
+  Create = TCreate<TModels>,
+  Update = TUpdate<Model>,
+  WhereUnique = TWhereUnique<Model>,
 > implements RepositoryInterface<Dto, Where, Sort>
 {
   protected constructor(
