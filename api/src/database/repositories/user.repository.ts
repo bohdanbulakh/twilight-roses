@@ -6,6 +6,8 @@ import { UserEntity } from '../entities/user.entity';
 @Injectable()
 export class UserRepository extends PrismaRepository<'user', UserEntity> {
   constructor(prisma: PrismaService) {
-    super(prisma.user);
+    super(prisma.user, {
+      refreshToken: true
+    });
   }
 }

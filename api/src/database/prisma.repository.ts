@@ -38,6 +38,13 @@ export abstract class PrismaRepository<
     });
   }
 
+  findById(id: string): Promise<Dto> {
+    return (this.model as any).findFirst({
+      where: { id },
+      include: this.include,
+    });
+  }
+
   create(data: Create): Promise<Dto> {
     return (this.model as any).create({ data, include: this.include });
   }

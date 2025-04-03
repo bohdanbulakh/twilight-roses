@@ -13,15 +13,17 @@ enum UserType {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String
-  username  String?
-  firstName String   @map("first_name")
-  lastName  String?  @map("last_name")
-  type      UserType
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  orders    Order[]
+  id           String        @id @default(uuid())
+  email        String
+  username     String?
+  password     String
+  firstName    String        @map("first_name")
+  lastName     String?       @map("last_name")
+  type         UserType
+  refreshToken RefreshToken?
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  orders       Order[]
 
   @@map("users")
 }
@@ -96,4 +98,13 @@ model EmailToken {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("email_tokens")
+}
+
+model RefreshToken {
+  token     String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("refresh_tokens")
 }
