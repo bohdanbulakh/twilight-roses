@@ -4,15 +4,16 @@ import { UserEntity } from '../../database/entities/user.entity';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AlreadyRegisteredException } from '../../common/exceptions/already-registered.exception';
-import * as process from 'process';
 import { RegisterDTO } from '@twilight-roses/utils';
 import { Injectable } from '@nestjs/common';
+import { SecurityConfigService } from '../../config/security-config.service';
 
 @Injectable()
 export class AuthService {
   constructor (
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly configService: SecurityConfigService,
   ) {}
 
   async register (data: RegisterDTO) {
@@ -57,8 +58,8 @@ export class AuthService {
     const payload = this.createPayload(user);
 
     return this.jwtService.sign(payload, {
-      expiresIn: process.env.ACCESS_TTL,
-      secret: process.env.ACCESS_SECRET,
+      expiresIn: this.configService.accessTtl,
+      secret: this.configService.accessSecret,
       ...options,
     });
   }

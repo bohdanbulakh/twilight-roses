@@ -5,9 +5,13 @@ import { AccessStrategy } from './strategies/access.strategy';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigModule } from '../../config/config.module';
 
 @Module({
-  imports: [PassportModule],
+  imports: [
+    PassportModule,
+    ConfigModule,
+  ],
   controllers: [AuthController],
   providers: [
     JwtService,
