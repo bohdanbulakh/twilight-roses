@@ -12,6 +12,7 @@ services:
       - twilight-roses
     depends_on:
       - postgres
+      - watchtower
     ports:
       - "3000:3000"
     env_file:
