@@ -37,7 +37,8 @@ lerna-debug.log*
 
 # dotenv environment variable files
 .env
-.development.env
+.twilight-roses-api.dev.env
+.postgres.dev.env
 .env.development.local
 .env.test.local
 .env.production.local

@@ -15,7 +15,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ~/deployment/env/.twilight-roses-api.env
+      - ~/deployment/twilight-roses/env/.twilight-roses-api.dev.env
 
   postgres:
     image: postgres:16
@@ -24,11 +24,11 @@ services:
     networks:
       - twilight-roses
     volumes:
-      - ~/deployment/postgres/data:/var/lib/postgresql/data
+      - ~/deployment/twilight-roses/postgres/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     env_file:
-      - ~/deployment/env/.postgres.env
+      - ~/deployment/twilight-roses/env/.postgres.dev.env
 
   watchtower:
     image: containrrr/watchtower
