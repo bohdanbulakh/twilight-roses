@@ -12,7 +12,7 @@ export const Register: ApiDocumentationParams = {
       Last name must be string
       Username is not correct (a-zA-Z0-9_), or too short (min: 2), or too long (max: 40)
       Username must be a string
-      Email cannot be empty
+      Username cannot be empty
       Email must be an email
       The password must be between 6 and 32 characters long, include at least 1 digit and 1 latin letter
       Password cannot be empty

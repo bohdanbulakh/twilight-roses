@@ -4,9 +4,11 @@ import { UserEntity } from '../../database/entities/user.entity';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AlreadyRegisteredException } from '../../common/exceptions/already-registered.exception';
-import process from 'node:process';
+import * as process from 'process';
 import { RegisterDTO } from '@twilight-roses/utils';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class AuthService {
   constructor (
     private readonly userRepository: UserRepository,
@@ -55,8 +57,8 @@ export class AuthService {
     const payload = this.createPayload(user);
 
     return this.jwtService.sign(payload, {
-      expiresIn: process.env.ACCESS_SECRET,
-      secret: process.env.ACCESS_TTL,
+      expiresIn: process.env.ACCESS_TTL,
+      secret: process.env.ACCESS_SECRET,
       ...options,
     });
   }

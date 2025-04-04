@@ -2,12 +2,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserRepository } from '../../../database/repositories/user.repository';
 import { InvalidEntityIdException } from '../../../common/exceptions/invalid-entity-id.exception';
-import { UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from '../types/jwt.payload';
-import * as process from 'node:process';
+import * as process from 'process';
 import { CookieUtils } from '../../../common/utils/request.utils';
 import { UserEntity } from '../../../database/entities/user.entity';
 
+@Injectable()
 export class AccessStrategy extends PassportStrategy(Strategy) {
   constructor (
     private readonly userRepository: UserRepository,

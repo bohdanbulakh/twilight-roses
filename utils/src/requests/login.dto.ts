@@ -15,7 +15,7 @@ export class LoginDTO {
     message.custom('Username is not correct (a-zA-Z0-9_), or too short (min: 2), or too long (max: 40)'))
   @IsNotEmpty(message.notEmpty('Username'))
   @IsString(message.ofType('Username', 'a string'))
-  username: string;
+    username: string;
 
   @ApiProperty({
     description: 'User\'s password to access account',
@@ -25,5 +25,5 @@ export class LoginDTO {
     message.custom('The password must be between 6 and 32 characters long, include at least 1 digit and 1 latin letter'))
   @IsNotEmpty(message.notEmpty('Password cannot be empty'))
   @IsString(message.ofType('Password', 'a string'))
-  password: string;
+    password: string;
 }

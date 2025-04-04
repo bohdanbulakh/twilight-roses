@@ -1,20 +1,21 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
 import { ENG_REGEX, NUM_REGEX, UKR_REGEX, UKRSPEC_REGEX, message } from '../validation.util';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserType } from '../enums';
 
 export class RegisterDTO {
-  @ApiPropertyOptional({ description: 'User\'s username in the application' })
+  @ApiProperty({ description: 'User\'s username in the application' })
   @Matches(
     new RegExp('^[' + ENG_REGEX + NUM_REGEX + '_' + ']{2,40}$'),
     message.custom('Username is not correct (a-zA-Z0-9_), or too short (min: 2), or too long (max: 40)'))
+  @IsNotEmpty(message.notEmpty('Username'))
   @IsString(message.ofType('Username', 'a string'))
-  @IsOptional()
-    username?: string;
+    username: string;
 
-  @ApiProperty({ description: 'User\'s email in the application'})
-  @IsNotEmpty(message.notEmpty('Email'))
+  @ApiPropertyOptional({ description: 'User\'s email in the application'})
   @IsEmail({}, message.ofType('Email', 'an email'))
-    email: string;
+  @IsOptional()
+    email?: string;
 
   @ApiProperty({ description: 'User\'s password to access account' })
   @Matches(
@@ -39,4 +40,12 @@ export class RegisterDTO {
   @IsString(message.ofType('Last name', 'string'))
   @IsOptional()
     lastName?: string;
+
+  @ApiPropertyOptional({
+    enum: UserType,
+    description: 'User\'s account type in the application'
+  })
+  @IsEnum(UserType, message.ofType('Type', 'an enum'))
+  @IsOptional()
+    type?: UserType;
 }
