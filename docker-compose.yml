@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  twilight-roses:
+
+services:
+  twilight-roses-api:
+    image: bohdanbulakh/twilight-roses-api
+    container_name: twilight-roses-api
+    restart: unless-stopped
+    networks:
+      - twilight-roses
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    env_file:
+      - ~/deployment/env/.twilight-roses-api.env
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    networks:
+      - twilight-roses
+    volumes:
+      - ~/deployment/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - ~/deployment/env/.postgres.env
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - "--cleanup"
+      - "-i"
+      - "60"
