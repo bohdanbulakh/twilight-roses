@@ -1,17 +1,21 @@
-import { UserRepository } from 'src/database/repositories/user.repository';
-import { JwtPayload } from './types/jwt.payload';
-import { UserEntity } from '../../database/entities/user.entity';
+import { Injectable } from '@nestjs/common';
+import { UserRepository } from '../../database/repositories/user.repository';
+import * as bcrypt from 'bcrypt'
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import { SecurityConfigService } from '../../config/security-config.service';
 import { AlreadyRegisteredException } from '../../common/exceptions/already-registered.exception';
 import { RegisterDTO } from '@twilight-roses/utils';
-import { Injectable } from '@nestjs/common';
-import { SecurityConfigService } from '../../config/security-config.service';
+import { UserEntity } from '../../database/entities/user.entity';
+import { JwtPayload } from './types/jwt.payload';
+import { RefreshTokenRepository } from '../../database/repositories/refresh-token.repository';
+import { UserWithToken } from './types/user-with-token.type';
+import { RefreshTokenEntity } from '../../database/entities/refresh-token.entity';
 
 @Injectable()
 export class AuthService {
   constructor (
     private readonly userRepository: UserRepository,
+    private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly jwtService: JwtService,
     private readonly configService: SecurityConfigService,
   ) {}
@@ -28,10 +32,24 @@ export class AuthService {
 
   async login (user: UserEntity) {
     return {
-      accessToken: this.generateToken(user),
+      accessToken: this.generateToken(user, 'access'),
+      refreshToken: await this.createRefreshToken(user),
     };
   }
 
+  async refresh (user: UserWithToken) {
+    const expiresIn = Math.floor((this.getTokenExpTime(user.token.token) - Date.now()) / 1000);
+
+    await this.refreshTokenRepository.deleteById(user.id);
+    return {
+      accessToken: this.generateToken(user, 'access'),
+      refreshToken: await this.createRefreshToken(user, { expiresIn }),
+    };
+  }
+
+  async logout ({ id }: RefreshTokenEntity) {
+    await this.refreshTokenRepository.deleteById(id);
+  }
 
   getTokenExpTime (token: string) {
     return this.jwtService.decode(token).exp * 1000;
@@ -53,21 +71,51 @@ export class AuthService {
     return bcrypt.hash(password, salt);
   }
 
+  private async createRefreshToken (user: UserEntity, options?: JwtSignOptions) {
+    await this.clearExpiredTokens(user.id);
+    const token = this.generateToken(user, 'refresh', options);
 
-  private generateToken (user: UserEntity, options?: JwtSignOptions) {
+    await this.userRepository.updateById(user.id, {
+      refreshTokens: {
+        create: { token },
+      },
+    });
+
+    await this.clearUserSessions(user);
+    return token;
+  }
+
+  private async clearExpiredTokens (userId?: string) {
+    const tokens = await this.refreshTokenRepository.findMany({ userId });
+    const now = Date.now();
+
+    for (const { id, token } of tokens) {
+      if (this.getTokenExpTime(token) <= now) {
+        await this.refreshTokenRepository.deleteById(id);
+      }
+    }
+  }
+
+  private async clearUserSessions ({ id }: UserEntity) {
+    const tokens = await this.refreshTokenRepository.findMany(
+      { userId: id }, undefined, { createdAt: 'asc' });
+
+    for (let i = 0; tokens.length - i > this.configService.sessions; i++) {
+      await this.refreshTokenRepository.deleteById(tokens[i].id);
+    }
+  }
+
+  private generateToken (user: UserEntity, token: 'access' | 'refresh', options?: JwtSignOptions) {
     const payload = this.createPayload(user);
 
     return this.jwtService.sign(payload, {
-      expiresIn: this.configService.accessTtl,
-      secret: this.configService.accessSecret,
+      expiresIn: this.configService[`${token}Ttl`],
+      secret: this.configService[`${token}Secret`],
       ...options,
     });
   }
 
-  private createPayload ({ id: sub, createdAt }: UserEntity): JwtPayload {
-    return {
-      sub,
-      createdAt,
-    };
+  private createPayload ({ id: sub }: UserEntity): JwtPayload {
+    return { sub };
   }
 }

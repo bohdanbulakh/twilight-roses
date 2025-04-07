@@ -12,4 +12,16 @@ export class SecurityConfigService {
   get accessTtl (): string {
     return this.configService.get<string>('security.access.ttl');
   }
+
+  get refreshSecret (): string {
+    return this.configService.get<string>('security.refresh.secret');
+  }
+
+  get refreshTtl (): string {
+    return this.configService.get<string>('security.refresh.ttl');
+  }
+
+  get sessions (): number {
+    return +this.configService.get<string>('security.sessions');
+  }
 }

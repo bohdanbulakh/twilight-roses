@@ -15,8 +15,8 @@ export class AccessStrategy extends PassportStrategy(Strategy) {
     configService: SecurityConfigService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors(CookieUtils.getRequestJwt('access_token')),
-      secretOrKey: configService.accessSecret ?? '',
+      jwtFromRequest: ExtractJwt.fromExtractors(CookieUtils.getRequestJwt('access')),
+      secretOrKey: configService.accessSecret,
       ignoreExpiration: false,
     });
   }

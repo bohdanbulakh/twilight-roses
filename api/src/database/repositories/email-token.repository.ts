@@ -6,7 +6,7 @@ import { TUpdate } from '../types/repository.types';
 
 @Injectable()
 export class EmailTokenRepository extends PrismaRepository<'emailToken', EmailTokenEntity> {
-  constructor(private prisma: PrismaService) {
+  constructor (private prisma: PrismaService) {
     super(prisma.emailToken);
   }
 
@@ -14,12 +14,16 @@ export class EmailTokenRepository extends PrismaRepository<'emailToken', EmailTo
     return this.prisma.emailToken.update({
       where: { token: id },
       data,
-    })
+    });
   }
 
   deleteById (id: string): Promise<EmailTokenEntity> {
     return this.prisma.emailToken.delete({
       where: { token: id },
-    })
+    });
+  }
+
+  findById (id: string): Promise<EmailTokenEntity> {
+    return this.prisma.emailToken.findUnique({ where: { token: id } });
   }
 }

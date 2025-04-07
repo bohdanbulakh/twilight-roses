@@ -10,8 +10,8 @@ export class UserEntity {
   firstName: string;
   lastName: string | null;
   type: UserType;
-  refreshToken?: RefreshTokenEntity;
   createdAt: Date;
   updatedAt: Date;
   orders?: OrderEntity[];
+  refreshTokens: RefreshTokenEntity[];
 }
