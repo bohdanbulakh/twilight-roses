@@ -20,7 +20,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
 
     if (!user) throw new InvalidEntityIdException('User');
-    await this.validatePassword(password, user.password as string);
+    await this.validatePassword(password, user.password);
     user.password = null;
     return user;
   }
