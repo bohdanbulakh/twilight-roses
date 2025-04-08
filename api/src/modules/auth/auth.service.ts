@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     data.password = await this.hashPassword(data.password);
-    return this.userRepository.create(data);
+    await this.userRepository.create(data);
   }
 
 
