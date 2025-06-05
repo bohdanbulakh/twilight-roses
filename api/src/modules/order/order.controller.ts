@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDTO } from '@twilight-roses/utils';
+import { OrderByIdPipe } from '../../common/pipes/order-by-id.pipe';
 
 @Controller('/orders')
 export class OrderController {
@@ -12,7 +13,7 @@ export class OrderController {
   }
 
   @Get('/:id')
-  getById (@Param('id') id: string) {
+  getById (@Param('id', OrderByIdPipe) id: string) {
     return this.orderService.getById(id);
   }
 
@@ -22,7 +23,7 @@ export class OrderController {
   }
 
   @Delete('/:id')
-  deleteById (@Param('id') id: string) {
+  deleteById (@Param('id', OrderByIdPipe) id: string) {
     return this.orderService.deleteById(id);
   }
 }
