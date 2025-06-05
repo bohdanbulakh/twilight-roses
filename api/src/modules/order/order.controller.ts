@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { CreateOrderDTO } from '@twilight-roses/utils';
 import { OrderByIdPipe } from '../../common/pipes/order-by-id.pipe';
+import { GetUser } from '../../common/decorators/get-user.decorator';
 
 @Controller('/orders')
 export class OrderController {
@@ -18,8 +18,8 @@ export class OrderController {
   }
 
   @Post()
-  create (@Body() body: CreateOrderDTO) {
-    return this.orderService.create(body);
+  create (@GetUser('id') userId: string) {
+    return this.orderService.create({ userId });
   }
 
   @Delete('/:id')
