@@ -1,7 +1,7 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
-import { ENG_REGEX, NUM_REGEX, UKR_REGEX, UKRSPEC_REGEX, message } from '../validation.util';
+import { ENG_REGEX, NUM_REGEX, UKR_REGEX, UKRSPEC_REGEX, message } from '../../validation.util';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { UserType } from '../enums';
+import { UserType } from '../../enums';
 
 export class RegisterDTO {
   @ApiProperty({ description: 'User\'s username in the application' })

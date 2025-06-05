@@ -4,7 +4,7 @@ import {
   ENG_REGEX,
   NUM_REGEX,
   message,
-} from '../validation.util';
+} from '../../validation.util';
 
 export class LoginDTO {
   @ApiProperty({
