@@ -2,6 +2,11 @@ import { ProductOrderEntity } from './product-order.entity';
 import { UserEntity } from './user.entity';
 import { AutoMap } from '@automapper/classes';
 
+export class OrdersEntity {
+  @AutoMap(() => [OrderEntity])
+    orders: OrderEntity[];
+}
+
 export class OrderEntity {
   @AutoMap()
     id: number;

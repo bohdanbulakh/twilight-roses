@@ -5,8 +5,8 @@ import { GetUser } from '../../common/decorators/get-user.decorator';
 import { ApiEndpoint } from 'src/common/decorators/api-endpoint.decorator';
 import { OrderDocumentation } from '../../common/documentation/modules/order';
 import { AccessGuard } from '../../common/guards/auth/access.guard';
-import { OrderEntity } from '../../database/entities/order.entity';
-import { OrderResponse } from '@twilight-roses/utils';
+import { OrderEntity, OrdersEntity } from '../../database/entities/order.entity';
+import { OrderResponse, OrdersResponse } from '@twilight-roses/utils';
 
 @Controller('/orders')
 export class OrderController {
@@ -16,6 +16,10 @@ export class OrderController {
   @ApiEndpoint({
     summary: 'Get all orders',
     documentation: OrderDocumentation.GET_ALL,
+    mapResponse: {
+      from: OrdersEntity,
+      to: OrdersResponse,
+    },
   })
   getAll () {
     return this.orderService.getAll();
