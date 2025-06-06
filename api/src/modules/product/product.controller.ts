@@ -5,6 +5,8 @@ import { ProductByIdPipe } from '../../common/pipes/product-by-id.pipe';
 import { ApiEndpoint } from '../../common/decorators/api-endpoint.decorator';
 import { ProductDocumentation } from '../../common/documentation/modules/product';
 import { AccessGuard } from '../../common/guards/auth/access.guard';
+import { ProductEntity, ProductsEntity } from '../../database/entities/product.entity';
+import { ProductResponse, ProductsResponse } from '@twilight-roses/utils';
 
 @Controller('products')
 export class ProductController {
@@ -14,6 +16,10 @@ export class ProductController {
   @ApiEndpoint({
     summary: 'Get all products',
     documentation: ProductDocumentation.GET_ALL,
+    mapResponse: {
+      from: ProductsEntity,
+      to: ProductsResponse,
+    },
   })
   getAll () {
     return this.productService.getAll();
@@ -23,6 +29,10 @@ export class ProductController {
   @ApiEndpoint({
     summary: 'Get product by id',
     documentation: ProductDocumentation.GET_BY_ID,
+    mapResponse: {
+      from: ProductEntity,
+      to: ProductResponse,
+    },
   })
   getById (@Param('id', ProductByIdPipe) id: string) {
     return this.productService.getById(id);
@@ -33,6 +43,10 @@ export class ProductController {
     summary: 'Create new product',
     documentation: ProductDocumentation.CREATE,
     guards: AccessGuard,
+    mapResponse: {
+      from: ProductEntity,
+      to: ProductResponse,
+    },
   })
   create (@Body() data: CreateProductDTO) {
     return this.productService.create(data);
@@ -43,6 +57,10 @@ export class ProductController {
     summary: 'Update product by id',
     documentation: ProductDocumentation.UPDATE_BY_ID,
     guards: AccessGuard,
+    mapResponse: {
+      from: ProductEntity,
+      to: ProductResponse,
+    },
   })
   updateById (
     @Param('id', ProductByIdPipe) id: string,
@@ -56,6 +74,10 @@ export class ProductController {
     summary: 'Delete order by id',
     documentation: ProductDocumentation.DELETE_BY_ID,
     guards: AccessGuard,
+    mapResponse: {
+      from: ProductEntity,
+      to: ProductResponse,
+    },
   })
   deleteById (@Param('id', ProductByIdPipe) id: string) {
     return this.productService.deleteById(id);
