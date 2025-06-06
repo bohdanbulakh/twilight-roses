@@ -46,6 +46,7 @@ module.exports = {
     'space-in-parens': 'error',
     'eqeqeq': ['error', 'smart'],
     'unused-imports/no-unused-imports': 'error',
+    'no-trailing-spaces': ['error', { skipBlankLines: false, }],
     'unused-imports/no-unused-vars': [
       'warn',
       {
