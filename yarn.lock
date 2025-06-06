@@ -3212,6 +3212,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:api"
   dependencies:
+    "@automapper/classes": "npm:^8.8.1"
     "@automapper/core": "npm:^8.8.1"
     "@automapper/nestjs": "npm:^8.8.1"
     "@eslint/eslintrc": "npm:^3.2.0"

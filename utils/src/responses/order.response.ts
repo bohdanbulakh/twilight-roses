@@ -12,6 +12,7 @@ export class OrderResponse {
   @ApiProperty({
     description: 'Id of the order owner',
   })
+  @AutoMap()
     userId: string;
 
   @ApiProperty({

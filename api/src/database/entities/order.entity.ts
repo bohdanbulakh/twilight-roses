@@ -1,10 +1,16 @@
 import { ProductOrderEntity } from './product-order.entity';
 import { UserEntity } from './user.entity';
+import { AutoMap } from '@automapper/classes';
 
 export class OrderEntity {
-  id: number;
+  @AutoMap()
+    id: number;
+
   user?: UserEntity;
-  userId: string | null;
+
+  @AutoMap()
+    userId: string | null;
+
   createdAt: Date;
   updatedAt: Date;
   productOrders?: ProductOrderEntity[];
