@@ -6,8 +6,9 @@ import { CreateOrderDTO } from '@twilight-roses/utils';
 export class OrderService {
   constructor (private readonly orderRepository: OrderRepository) {}
 
-  getAll () {
-    return this.orderRepository.findMany({})
+  async getAll () {
+    const orders = await this.orderRepository.findMany({});
+    return { orders };
   }
 
   getById (id: string) {
@@ -19,6 +20,6 @@ export class OrderService {
   }
 
   deleteById (id: string) {
-    return this.orderRepository.deleteById(id)
+    return this.orderRepository.deleteById(id);
   }
 }
