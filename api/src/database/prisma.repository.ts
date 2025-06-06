@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { RepositoryInterface } from './interfaces/repository.interface';
-import { TModels, TCreate, TSort, TUpdate, TWhere, TWhereUnique } from './types/repository.types';
+import { TModels, TCreate, TSort, TUpdate, TWhere, TWhereUnique, TInclude } from './types/repository.types';
 
 export abstract class PrismaRepository<
   Model extends TModels,
@@ -10,11 +10,12 @@ export abstract class PrismaRepository<
   Create = TCreate<TModels>,
   Update = TUpdate<Model>,
   WhereUnique = TWhereUnique<Model>,
+  IncludeType = TInclude<Prisma.TypeMap, Model>,
 > implements RepositoryInterface<Dto, Where, Sort>
 {
   protected constructor(
     protected readonly model: (typeof PrismaClient.prototype)[Model],
-    private readonly include?: any,
+    private readonly include?: IncludeType,
   ) {}
 
   findMany(
