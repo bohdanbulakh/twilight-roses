@@ -8,4 +8,4 @@ export const AuthDocumentation = {
   LOGIN: Login,
   REFRESH: Refresh,
   LOGOUT: Logout,
-}
+};

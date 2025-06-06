@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '../database/prisma.module';
 import { ApiModule } from './api.module';
-import Configuration from '../config/configuration.constant'
+import Configuration from '../config/configuration.constant';
 import { ConfigModule } from '../config/config.module';
 
 @Module({

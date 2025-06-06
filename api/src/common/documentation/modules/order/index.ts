@@ -8,4 +8,4 @@ export const OrderDocumentation = {
   GET_BY_ID: GetById,
   CREATE: Create,
   DELETE_BY_ID: DeleteById,
-}
+};

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../database/repositories/user.repository';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { SecurityConfigService } from '../../config/security-config.service';
 import { AlreadyRegisteredException } from '../../common/exceptions/already-registered.exception';

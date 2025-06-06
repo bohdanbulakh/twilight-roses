@@ -47,6 +47,6 @@ export class CookieUtils {
     CookieUtils.setResponseJwt(res, '', '', {
       accessExpires: 0,
       refreshExpires: 0,
-    })
+    });
   }
 }

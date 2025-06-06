@@ -12,7 +12,7 @@ export class RegisterDTO {
   @IsString(message.ofType('Username', 'a string'))
     username: string;
 
-  @ApiPropertyOptional({ description: 'User\'s email in the application'})
+  @ApiPropertyOptional({ description: 'User\'s email in the application' })
   @IsEmail({}, message.ofType('Email', 'an email'))
   @IsOptional()
     email?: string;
@@ -43,7 +43,7 @@ export class RegisterDTO {
 
   @ApiPropertyOptional({
     enum: UserType,
-    description: 'User\'s account type in the application'
+    description: 'User\'s account type in the application',
   })
   @IsEnum(UserType, message.ofType('Type', 'an enum'))
   @IsOptional()

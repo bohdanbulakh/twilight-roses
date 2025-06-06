@@ -8,10 +8,10 @@ export const GetById: ApiDocumentationParams = {
   badRequest: {
     description: `
     InvalidEntityIdException:
-      Order with such id not found`
+      Order with such id not found`,
   },
   params: [{
     name: 'id',
     description: 'Id of the order',
-  }]
-}
+  }],
+};

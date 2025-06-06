@@ -5,7 +5,7 @@ import { CategoryEntity } from '../entities/category.entity';
 
 @Injectable()
 export class CategoryRepository extends PrismaRepository<'category', CategoryEntity> {
-  constructor(prisma: PrismaService) {
+  constructor (prisma: PrismaService) {
     super(prisma.category);
   }
 }

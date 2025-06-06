@@ -15,5 +15,5 @@ export const DeleteById: ApiDocumentationParams = {
   params: [{
     name: 'id',
     description: 'Id of the order',
-  }]
+  }],
 };

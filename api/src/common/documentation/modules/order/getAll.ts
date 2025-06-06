@@ -4,5 +4,5 @@ import { ApiDocumentationParams } from '../../types/api-documentation-params.typ
 export const GetAll: ApiDocumentationParams = {
   ok: {
     type: [OrderResponse],
-  }
-}
+  },
+};

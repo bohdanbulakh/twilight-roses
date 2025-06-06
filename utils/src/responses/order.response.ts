@@ -14,7 +14,7 @@ export class OrderResponse {
 
   @ApiProperty({
     description: 'Order Products',
-    type: [ProductResponse]
+    type: [ProductResponse],
   })
-    products: ProductResponse[]
+    products: ProductResponse[];
 }
