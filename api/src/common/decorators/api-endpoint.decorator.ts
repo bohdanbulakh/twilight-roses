@@ -1,11 +1,12 @@
 import { ApiEndpointParams } from '../documentation/types/api-endpoint-params.type';
-import { applyDecorators, UseGuards } from '@nestjs/common';
+import { applyDecorators, UseGuards, UseInterceptors } from '@nestjs/common';
 import { addDocumentationDecorators } from '../documentation/get-documentation-decorators';
 
 export function ApiEndpoint ({
   summary,
   guards,
   documentation,
+  interceptors,
 }: ApiEndpointParams) {
   let description = '';
 
@@ -19,6 +20,11 @@ export function ApiEndpoint ({
 
   if (guards) {
     decorators.push(UseGuards(...guards));
+  }
+
+  if (interceptors) {
+    const interceptorsArray = Array.isArray(interceptors) ? interceptors : [interceptors];
+    decorators.push(UseInterceptors(...interceptorsArray));
   }
 
   return applyDecorators(...decorators);
