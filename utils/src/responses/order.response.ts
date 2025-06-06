@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductResponse } from './product.response';
+import { AutoMap } from '@automapper/classes';
 
 export class OrderResponse {
   @ApiProperty({
     description: 'Order id',
   })
+  @AutoMap()
     id: string;
 
   @ApiProperty({
@@ -16,5 +18,6 @@ export class OrderResponse {
     description: 'Order Products',
     type: [ProductResponse],
   })
+  @AutoMap(() => [ProductResponse])
     products: ProductResponse[];
 }
