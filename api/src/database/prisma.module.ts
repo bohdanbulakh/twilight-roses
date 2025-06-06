@@ -5,6 +5,7 @@ import { UserRepository } from './repositories/user.repository';
 import { OrderRepository } from './repositories/order.repository';
 import { PrismaService } from './prisma.service';
 import { RefreshTokenRepository } from './repositories/refresh-token.repository';
+import { ProductRepository } from './repositories/product.repository';
 
 @Global()
 @Module({
@@ -15,6 +16,7 @@ import { RefreshTokenRepository } from './repositories/refresh-token.repository'
     CategoryRepository,
     EmailTokenRepository,
     RefreshTokenRepository,
+    ProductRepository,
   ],
   exports: [
     UserRepository,
@@ -22,6 +24,7 @@ import { RefreshTokenRepository } from './repositories/refresh-token.repository'
     CategoryRepository,
     EmailTokenRepository,
     RefreshTokenRepository,
+    ProductRepository,
   ],
 })
 export class PrismaModule {}
